@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <title>Najm AI Editor V2</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="workspace">
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-art" aria-hidden="true">N</span>
+      <span class="brand-copy"><strong>NAJM</strong><small>DEVELOPER PREVIEW</small></span>
+    </div>
+    <span class="host-label">PREMIERE EXTENSION</span>
+  </header>
+
+  <div class="workspace-grid">
+    <div class="workspace-main">
+      <section class="intro" aria-labelledby="current">
+        <span class="eyebrow">YOUR EDITING WORKSPACE</span>
+        <div class="intro-heading"><h1 id="intro-title">Turn your footage into a story.</h1><span id="current" class="state-pill">PREPARING</span></div>
+        <p id="hero-copy">Preparing Najm…</p>
+      </section>
+
+      <section class="card" id="readiness" aria-labelledby="readiness-heading">
+        <div class="section-heading"><div class="section-title"><span class="section-number">01</span><h2 id="readiness-heading">System readiness</h2></div><span id="readiness-state" class="pill">Preparing</span></div>
+        <details id="readiness-details"><summary>View setup checks</summary><div class="readiness-grid">
+          <div class="readiness-item"><span class="service-mark">Pr</span><span class="service-copy">Premiere<small>Direct connection</small></span><span class="service-status"><i id="ready-premiere-dot" class="dot"></i><b id="ready-premiere">Connecting</b></span></div>
+          <div class="readiness-item"><span class="service-mark ai-mark">✦</span><span class="service-copy">AI<small>Story planning</small></span><span class="service-status"><i id="ready-ai-dot" class="dot"></i><b id="ready-ai">Checking</b></span></div>
+          <div class="readiness-item"><span class="service-mark engine-mark">▥</span><span class="service-copy">Local engine<small>Editing tools</small></span><span class="service-status"><i id="ready-engine-dot" class="dot"></i><b id="ready-engine">Starting</b></span></div>
+          <div class="readiness-item"><span class="service-mark assets-mark">◇</span><span class="service-copy">Editing profile<small>Styles and assets</small></span><span class="service-status"><i id="ready-assets-dot" class="dot"></i><b id="ready-assets">Checking</b></span></div>
+          <div class="readiness-item"><span class="service-mark">S</span><span class="service-copy">Source<small>Active sequence</small></span><span class="service-status"><i id="ready-source-dot" class="dot"></i><b id="ready-source">Checking</b></span></div>
+          <div class="readiness-item"><span class="service-mark">M</span><span class="service-copy">Local media<small>Source files and tools</small></span><span class="service-status"><i id="ready-media-dot" class="dot"></i><b id="ready-media">Checking</b></span></div>
+          <div class="readiness-item"><span class="service-mark">B</span><span class="service-copy">Build<small>Panel and engine</small></span><span class="service-status"><i id="ready-build-dot" class="dot"></i><b id="ready-build">Checking</b></span></div>
+        </div></details>
+        <p id="readiness-action" class="hint" role="status">Preparing your workspace…</p>
+        <p id="setup-progress" class="hint" role="status">Opening the Premiere connection…</p>
+      </section>
+
+      <section class="card" id="project-card" aria-labelledby="project-heading">
+        <div class="section-heading"><div class="section-title"><span class="section-number">02</span><h2 id="project-heading">Source project</h2></div><span id="project-state" class="pill">Checking</span></div>
+        <strong id="source" class="source-name" dir="auto">Checking…</strong>
+        <p id="project-meta" class="project-meta">Reading sequence details…</p>
+        <div class="source-picker" id="source-picker"><label for="sources">Original source sequence</label><div class="source-controls"><select id="sources" aria-label="Original source sequence"></select><button id="activate" class="secondary" type="button" disabled>Open selected original</button></div></div>
+        <p id="source-next-step" class="hint" role="status"></p>
+        <div class="general-edit" id="general-edit">
+          <strong>General Auto Edit</strong>
+          <p class="hint">Edit an original source without using an agent.</p>
+          <button id="general-auto" class="primary" type="button" disabled>Start general Auto Edit</button>
+          <p id="general-auto-status" class="hint" role="status"></p>
+        </div>
+      </section>
+
+      <section class="card" id="brief-card" aria-labelledby="brief-heading">
+        <div class="section-heading"><div class="section-title"><span class="section-number">03</span><h2 id="brief-heading">Edit instructions</h2></div><span class="optional">OPTIONAL</span></div>
+        <label for="edit-mode">Editing mode</label>
+        <select id="edit-mode"><option value="AUTO_EDIT">Auto Edit · keep source clip audio</option><option value="CAPTIONS_ONLY">Captions + title only · I edit the clips</option></select>
+        <p id="edit-mode-help" class="hint">Auto Edit keeps the original sound of selected footage alongside narration.</p>
+        <div id="caption-options" hidden>
+          <label for="caption-audio-track">Speech to transcribe</label>
+          <select id="caption-audio-track"><option value="">All audio tracks</option></select>
+          <p class="hint">GPT audio transcription + detailed Sol review. Uses the selected graphics backend. Creates a copy with all existing clips and audio preserved; adds only text graphics.</p>
+          <p id="caption-provider-status" class="hint" role="status"></p>
+        </div>
+        <label class="sr-only" for="brief">Edit instructions</label>
+        <textarea id="brief" maxlength="8000" rows="4" placeholder="Describe how you want this video edited…"></textarea>
+        <div class="field-foot"><span>Make the hook fast, keep the story natural, and avoid repetitive B-roll.</span><span id="brief-count">0 / 8000</span></div>
+      </section>
+
+      <section class="card" id="agent-card" aria-labelledby="agent-heading">
+        <div class="section-heading"><div class="section-title"><span class="section-number">04</span><h2 id="agent-heading">Editing agent</h2></div><span class="optional">OPTIONAL</span></div>
+        <div class="agent-row"><label for="agent-select">Selected agent</label><select id="agent-select"><option value="">No agent</option></select><button id="agent-new" class="secondary" type="button">New agent</button></div>
+        <p id="agent-mode-help" class="hint">No agent: use general Auto Edit. Select a draft to train it or an approved agent to use its saved rules.</p>
+        <div class="agent-editor" id="agent-memory" hidden>
+          <strong id="agent-memory-title">Approved agent</strong>
+          <p id="agent-memory-status" class="hint" role="status"></p>
+          <button id="agent-load" class="primary" type="button">Load Agent</button>
+          <pre id="agent-memory-rules" class="hint"></pre>
+          <p id="agent-memory-limits" class="hint"></p>
+        </div>
+        <details class="agent-editor" id="agent-form">
+          <summary>Create or edit agent details</summary>
+          <label for="agent-name">Name</label><input id="agent-name" maxlength="100" placeholder="Agent name">
+          <label for="agent-description">Description</label><textarea id="agent-description" maxlength="500" rows="2" placeholder="What is this agent for?"></textarea>
+          <label for="agent-instructions">Instructions</label><textarea id="agent-instructions" maxlength="8000" rows="5" placeholder="Describe editing preferences for story and visuals..."></textarea>
+          <p class="hint">Agents remain drafts. A test uses the selected saved version.</p>
+          <p id="agent-error" class="field-error" role="alert"></p>
+          <button id="agent-save" class="secondary" type="button">Save agent</button>
+          <p id="agent-save-status" class="hint" role="status" aria-live="polite"></p>
+        </details>
+        <div class="agent-editor" id="training-studio" hidden>
+          <strong>Agent Training Studio</strong>
+          <p class="hint">Learn Timeline → Test Agent → Save Agent or Modify Editing Style</p>
+          <p id="studio-step" class="hint">Open a reference timeline to begin.</p>
+          <p id="studio-operation" class="hint" role="status" aria-live="polite"></p>
+          <label for="studio-progress">Reference learning</label><progress id="studio-progress" value="0" max="3" aria-label="Reference learning progress"></progress>
+          <p id="studio-progress-label" class="hint" role="status"></p>
+          <p id="studio-learn-result" class="hint" role="status"></p>
+          <details id="studio-evidence"><summary>What Najm actually found</summary>
+            <pre id="studio-learning-checks" class="hint" role="status"></pre>
+            <pre id="studio-evidence-details" class="hint"></pre>
+            <pre id="studio-completed" class="hint"></pre>
+          </details>
+          <button id="studio-learn" class="secondary" type="button">Learn Timeline</button>
+          <button id="studio-cancel-learn" class="secondary" type="button" hidden>Cancel learning</button>
+          <pre id="studio-findings" class="hint"></pre>
+          <p id="studio-roadmap" class="hint" role="status"></p>
+          <div id="studio-clarify" hidden>
+            <strong>Clarify a style choice</strong><p id="studio-question" class="hint"></p>
+            <label for="studio-answer">Your answer</label><select id="studio-answer"><option value="agree">Use this when the new story supports it</option><option value="reference_only">Only for this reference</option><option value="disagree">Do not learn this rule</option></select>
+            <label for="studio-answer-reason">Why? (optional)</label><textarea id="studio-answer-reason" maxlength="1000" rows="2"></textarea>
+            <button id="studio-answer-submit" class="primary" type="button">Save answer and continue</button>
+          </div>
+          <div id="studio-test" hidden>
+            <strong>Test this agent</strong><p class="hint">Najm will find source media, choose a complete narration section, and create a separate TEST timeline.</p>
+            <button id="studio-prepare" class="primary" type="button">Test Agent</button>
+            <div id="studio-test-advanced" hidden>
+            <label for="studio-sources">Original footage for TEST</label><select id="studio-sources" aria-label="Original footage for TEST"></select>
+            <button id="studio-open-source" class="secondary" type="button">Open selected original for TEST</button>
+            <label for="studio-test-start">Start (seconds)</label><input id="studio-test-start" type="number" min="0" step="any" placeholder="0">
+            <label for="studio-test-end">End (seconds)</label><input id="studio-test-end" type="number" min="0" step="any" placeholder="15">
+            <button id="studio-suggest" class="secondary" type="button">Suggest from saved story</button>
+            </div>
+            <p id="studio-pending" class="hint"></p>
+            <button id="studio-apply" class="primary" type="button" hidden>Start agent TEST in new sequence</button>
+          </div>
+          <button id="studio-modify" class="primary" type="button" hidden>Modify Editing Style</button>
+          <div id="studio-update" hidden>
+            <strong>Learn from your corrections</strong><p class="hint">Correct the isolated TEST sequence in Premiere, then compare it with Najm’s saved baseline.</p>
+            <button id="studio-update-button" class="secondary" type="button">Update Timeline</button>
+            <pre id="studio-differences" class="hint"></pre>
+            <label for="studio-correction-reason">Why did you make these changes?</label><textarea id="studio-correction-reason" maxlength="1000" rows="2"></textarea>
+            <label for="studio-correction-accept">Save this as a reusable lesson?</label><select id="studio-correction-accept"><option value="yes">Yes, use this lesson</option><option value="no">No, this was specific to the TEST</option></select>
+            <button id="studio-confirm-correction" class="secondary" type="button" hidden>Confirm lesson</button>
+          </div>
+          <button id="studio-approve" class="primary" type="button" hidden>Save Agent</button>
+          <p id="studio-error" class="field-error" role="alert"></p>
+        </div>
+        <div class="agent-editor" id="reference-learning">
+          <strong>Learn from a reference timeline</strong>
+          <p class="hint">Select a saved draft agent and open the timeline in Premiere, including a NAJM_EDIT sequence. Najm reads its clip pacing, layers, graphic clip rhythm, and audio placement. Text, effects, and storytelling are reported only when Premiere exposes reliable evidence. The Source sequence menu is for TEST and editing.</p>
+          <button id="reference-analyze" class="secondary" type="button" disabled>Analyze Current Timeline</button>
+          <p id="reference-message" class="hint" role="status"></p>
+          <div id="reference-review" hidden>
+            <h3>Observed in the timeline</h3><pre id="reference-observed"></pre>
+            <h3>Proposed preference</h3><p id="reference-proposal" class="hint"></p>
+            <label for="reference-shot-ms">Target visual shot duration (milliseconds)</label><input id="reference-shot-ms" type="number" min="500" max="10000" step="100">
+            <h3>V2 support and dependencies</h3><pre id="reference-support"></pre>
+            <button id="reference-approve" class="secondary" type="button" disabled>Save style memory to agent</button>
+          </div>
+        </div>
+        <div id="agent-test-controls" class="agent-editor" hidden>
+          <strong>Representative test section</strong>
+          <p class="hint">Enter source sequence seconds, from 3 to 30 seconds. Only complete narration phrases inside this range are used.</p>
+          <label for="test-start">Start (seconds)</label><input id="test-start" type="number" min="0" step="any" placeholder="0">
+          <label for="test-end">End (seconds)</label><input id="test-end" type="number" min="0" step="any" placeholder="15">
+          <button id="test-suggest" class="secondary" type="button">Suggest from saved story</button>
+          <p id="test-suggestion-note" class="hint" role="status"></p>
+          <p id="test-action-note" class="hint" role="status"></p>
+          <p id="test-status" class="hint" role="status"></p>
+        </div>
+      </section>
+
+      <section id="action-panel" class="action-panel" aria-label="Editing actions">
+        <p id="action-error" role="alert"></p>
+        <p id="cache-note" class="hint" hidden></p>
+        <p id="edit-action-help" class="hint" role="status"></p>
+        <button id="auto" class="primary" type="button" hidden disabled>Start editing</button>
+        <button id="agent-test" class="primary" type="button" hidden disabled>Start agent test</button>
+          <button id="retry" class="primary" type="button" hidden>Connect / Retry</button>
+        <div class="actions"><button id="cancel" class="secondary" type="button" hidden disabled>Pause run</button></div>
+      </section>
+    </div>
+
+    <aside class="workspace-side" aria-label="Editing progress and details">
+      <section id="run-view" class="card progress-card" aria-labelledby="progress-heading" hidden>
+        <div class="section-heading"><h2 id="progress-heading">Editing progress</h2><b id="progress-label" class="progress-percent">0%</b></div>
+        <p id="run-training-context" class="hint" hidden></p>
+        <div class="progress-summary"><div id="progress-ring" class="progress-ring" aria-hidden="true"><span id="progress-ring-label">0%</span></div><div id="stage-row" class="stage-current" hidden><span>Current step</span><strong id="stage"></strong><p id="stage-detail"></p></div></div>
+        <div id="run-progress"><progress id="progress" value="0" max="100" aria-label="Edit progress"></progress></div>
+        <ol id="stage-map" class="stage-map"><li>Understanding Project</li><li>Cleaning Story</li><li>Preparing Narration</li><li>Understanding Footage</li><li>Planning Edit</li><li>Building Timeline</li><li>Captions &amp; Title</li><li>Final Check</li><li>Ready</li></ol>
+        <p id="activity-age" class="hint" hidden></p>
+      </section>
+
+      <section id="run-stages" class="card run-card" hidden aria-labelledby="run-heading">
+        <div class="section-heading"><h2 id="run-heading">Editing paused</h2><span class="pill paused-pill">Saved run</span></div>
+        <p id="error" class="run-message" role="alert"></p>
+        <span class="label">Completed</span><pre id="completed">None yet</pre>
+        <span class="label">Next</span><strong id="next" class="next-step"></strong>
+        <p id="resume-preview" class="hint"></p>
+        <div class="actions"><button id="resume" class="primary" type="button" hidden disabled>Resume</button><button id="discard" class="secondary danger" type="button" hidden disabled>Discard run</button></div>
+      </section>
+
+      <section id="result-view" class="card result" hidden aria-labelledby="result-heading"><span class="eyebrow">COMPLETE</span><h2 id="result-heading">Edit ready</h2><p>Your edit is ready in Premiere.</p><button id="open-sequence" class="secondary" type="button">Open generated sequence</button></section>
+
+      <div id="run-metrics" class="metrics"><span>Elapsed <b id="elapsed">00:00</b></span><span>AI calls <b id="calls">0 / 2</b></span></div>
+
+      <details class="card disclosure usage"><summary>AI usage</summary><div id="usage-summary">No current run</div></details>
+      <details class="card disclosure diagnostics"><summary>Advanced / Diagnostics</summary><div class="status"><span>Engine</span><b id="engine">Starting</b><span>Premiere Direct</span><b id="premiere">Reconnecting</b><span>Whisper</span><b id="whisper">Checking</b><span>GPT</span><b id="gpt">Checking</b><span>FFmpeg</span><b id="ffmpeg">Checking</b><span>Build ID</span><b id="build-id">Checking</b><span>Run ID</span><b id="run-id">None</b></div><pre id="detail"></pre><strong>Connection activity</strong><pre id="setup-trace">Waiting for panel script…</pre></details>
+    </aside>
+  </div>
+</main>
+<script>
+  var najmFresh=Date.now();
+  document.write('<script src="config.js?v='+najmFresh+'"><\/script>');
+  document.write('<script src="app.js?v='+najmFresh+'"><\/script>');
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+{
+  "pythonExecutable": "C:\\absolute\\path\\to\\python.exe",
+  "whisperModel": "medium"
+}

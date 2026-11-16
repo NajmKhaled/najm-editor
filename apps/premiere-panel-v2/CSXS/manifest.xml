@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionManifest Version="10.0" ExtensionBundleId="com.najm.editor.preview" ExtensionBundleVersion="2.0.0" ExtensionBundleName="NajmEditor Preview">
+  <ExtensionList><Extension Id="com.najm.editor.preview.panel" Version="2.0.0"/></ExtensionList>
+  <ExecutionEnvironment><HostList><Host Name="PPRO" Version="[26.0,26.9]"/></HostList><LocaleList><Locale Code="All"/></LocaleList><RequiredRuntimeList><RequiredRuntime Name="CSXS" Version="10.0"/></RequiredRuntimeList></ExecutionEnvironment>
+  <DispatchInfoList><Extension Id="com.najm.editor.preview.panel"><DispatchInfo><Resources><MainPath>./index.html</MainPath><CEFCommandLine><Parameter>--enable-nodejs</Parameter><Parameter>--mixed-context</Parameter></CEFCommandLine></Resources><Lifecycle><AutoVisible>true</AutoVisible></Lifecycle><UI><Type>Panel</Type><Menu>NajmEditor Preview</Menu><Geometry><Size><Width>340</Width><Height>510</Height></Size><MinSize><Width>300</Width><Height>400</Height></MinSize></Geometry></UI></DispatchInfo></Extension></DispatchInfoList>
+</ExtensionManifest>

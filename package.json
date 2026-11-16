@@ -1,0 +1,29 @@
+{
+  "name": "najm-editor",
+  "version": "0.3.0-dev",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test dist/tests/public/*.test.js",
+    "demo": "npm run build && node dist/demo/run.js",
+    "start": "node dist/services/v2/server.js",
+    "test:media": "npm run build && node --test dist/tests/integration/*.test.js",
+    "check:release": "node scripts/check-release.mjs",
+    "demo:media": "npm run build && node dist/demo/media.js",
+    "install:panel": "powershell.exe -NoProfile -File scripts/install-v2.ps1",
+    "demo:preview": "npm run build && node dist/demo/preview.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.18.2",
+    "typescript": "^5.9.0"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "ws": "^8.22.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

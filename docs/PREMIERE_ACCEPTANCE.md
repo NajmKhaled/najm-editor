@@ -1,0 +1,14 @@
+# Live Premiere acceptance — pending
+
+Do this in a new disposable Premiere project containing only generated demo media. No supported Premiere installation was running during release verification. Host simulations are not live acceptance.
+
+1. Run `npm run demo`, then `npm run demo:media`. Install the separate preview panel, run `npm start`, and open the panel.
+2. Import only the generated files from `demo/output/media`. Create a portrait, 30 fps sequence named **Synthetic reference** with six adjacent 2-second video clips across 12 seconds. Use the generated circle, square and triangle MP4s. Add no other media or graphics.
+3. Create **Synthetic shapes source** with one, then separately two or five video tracks. Put the three generated MP4s on V1 and the generated silent WAV on A1. Use only generated media. Save the project. The demo captions are supplied shape labels, not transcribed speech.
+4. Run `scripts/live-smoke.ps1` for authenticated health, then `scripts/live-smoke.ps1 -ApplySyntheticDemo`. The endpoint checks both sequence identities and that every source/reference media path belongs to this checkout's generated demo media. It measures the reference's actual median shot duration, uses fixture inference through the V2 planner, and writes one owned generated sequence.
+5. Verify six shots, correct source ranges and no gaps; original source/reference remain unchanged. Title/captions append above the original track count. Inspect enabled/muted states and visually inspect Arabic shaping, line order, placement and timing at the start, middle and end. Neutral text is pre-rendered locally with an installed Arabic-capable system font, not a private template. Record actual host/Windows versions and frame observations in an acceptance record.
+6. Interrupt the preview connection during a batch, reconnect, and repeat the same demo action. Verify that it resolves the persisted receipt and uses the same generated target without duplicate picture/audio/graphics. Repeat across engine and Premiere restart after saving. If ownership or target initialization is ambiguous, recovery must stop rather than create another target.
+7. Edit or add a clip on a managed generated track, then repeat. It must stop with a recovery conflict and preserve that clip. Cancellation does not undo already executing host work. No blanket track clearing is permitted.
+8. Export representative PNG frames and a short preview manually from Premiere. Inspect for private paths/metadata before sharing. Mark structural completion and visual acceptance separately. Final video export is manual.
+
+Changing the reference to twelve 1-second clips should generate twelve shots in a separately prepared run/project. Do not overwrite an existing run with a different reference or plan. Synthetic demo output is persisted under ignored `projects/`; do not publish raw local receipts or project paths.

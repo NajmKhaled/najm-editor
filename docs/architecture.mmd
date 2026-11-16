@@ -1,0 +1,10 @@
+flowchart LR
+  R["Reference timeline or synthetic snapshot"] --> A["Local pattern extraction"]
+  A --> S["Saved rules"]
+  S --> P["Editorial provider: fixture by default"]
+  N["New story and footage"] --> P
+  P --> V["Local candidate allocator and validator"]
+  V --> B["Authenticated loopback engine"]
+  B --> C["CEP panel and ExtendScript"]
+  C --> T["Owned generated sequence"]
+  T --> Q["Readback and separate visual acceptance"]
