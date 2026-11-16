@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "privacy": "No client footage, recordings, private presets, font binaries or local paths. Banner pixel data preserved; provenance metadata removed.",
+  "workflow": {
+    "label": "Simulated workflow",
+    "durationSeconds": 20,
+    "width": 1280,
+    "height": 720,
+    "fps": 24,
+    "audioStreams": 0,
+    "evidence": "Actual V2 fixture plans from Measured and Tight agents"
+  },
+  "assets": {
+    "docs/media/banner.png": {
+      "sha256": "618cd00ed1ad056a5b237c3f8b816422bc397c92e25f5fa7f785e7f9224562ec",
+      "bytes": 1272465,
+      "origin": "OWNER_SUPPLIED_BANNER_METADATA_REMOVED"
+    },
+    "docs/media/agent-comparison.png": {
+      "sha256": "5f98b4101cfc30cfed649ea0275d3812ee16b8392ec72c1c4f77dbb05b77457a",
+      "bytes": 230517,
+      "origin": "FIRST_PARTY_SIMULATED_WORKFLOW"
+    },
+    "docs/media/workflow.gif": {
+      "sha256": "65e64c44cc0599cda9ae4464d7c9d45de4adbf657999ba259bb12793d39e026c",
+      "bytes": 817070,
+      "origin": "FIRST_PARTY_SIMULATED_WORKFLOW"
+    },
+    "docs/media/workflow.mp4": {
+      "sha256": "a4aa43ce63b6576ca04e37c8297952fe76eec9146047fca00b223c69323480fb",
+      "bytes": 532896,
+      "origin": "FIRST_PARTY_SIMULATED_WORKFLOW"
+    },
+    "docs/media/lower-third-local.png": {
+      "sha256": "0d2541fd3e010a52cdc52afff4be6d011113c38b3503e638e18373f05d1154b7",
+      "bytes": 21434,
+      "origin": "FIRST_PARTY_HTML_CSS_RENDER_LOCAL_COMPOSITE"
+    }
+  }
+}

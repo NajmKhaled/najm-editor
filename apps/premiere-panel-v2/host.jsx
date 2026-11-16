@@ -147,6 +147,16 @@ var NajmV2 = NajmV2 || {};
       for(var g=0;g<2;g++){var track=s.videoTracks[indices[g]];for(var ci=0;ci<track.clips.numItems;ci++){var existing=track.clips[ci],owned=false;for(var li=0;li<lists[g].length;li++){var item=lists[g][li],owner='NAJM_'+a.runId+'_'+kinds[g]+'_'+li+'_'+(new File(item.templatePath)).name;if(String(existing.name)===owner&&Math.abs(seconds(existing.start)-item.start)<.02&&Math.abs(seconds(existing.end)-item.end)<.08)owned=true;}if(!owned)fail('RECOVERY_REQUIRED: unrelated or modified graphic; nothing removed');}}
       result={captions:graphicBatch(s,a.captions,captionTrack,'caption',a),title:graphicBatch(s,[a.title],titleTrack,'title',a),titleTrackIndex:titleTrack,captionTrackIndex:captionTrack,snapshot:snapshot(s)};
     }
+    else if(op==='applyOverlayBatch'){
+      s=requireTarget(a);if(!(a.trackIndex>=1)||!(a.end>a.start)||!(new File(String(a.path))).exists)fail('Invalid rendered overlay');
+      ensureTracks(s,Number(a.trackIndex)+1,s.audioTracks.numTracks);var overlayTrack=s.videoTracks[Number(a.trackIndex)],owner='NAJM_'+a.runId+'_rendered_'+(new File(a.path)).name;
+      if(overlayTrack.clips.numItems>1)fail('RECOVERY_REQUIRED: unrelated overlay track clips');
+      c=at(overlayTrack,Number(a.start));if(overlayTrack.clips.numItems&&!c)fail('RECOVERY_REQUIRED: unrelated overlay placement');
+      if(c){if(String(c.name)!==owner||clipPath(c).toLowerCase()!==String(a.path).toLowerCase()||Math.abs(seconds(c.end)-a.end)>.08)fail('RECOVERY_REQUIRED: edited overlay preserved');}
+      else{c=place(overlayTrack,mediaPortion(a.path,'VIDEO',a.end-a.start),Number(a.start),0,Number(a.end)-Number(a.start));c.name=owner;}
+      try{if(overlayTrack.isMuted()||!c.isEnabled())fail('Rendered overlay disabled or muted')}catch(error){if(String(error).indexOf('disabled or muted')>=0)throw error;}
+      result={sequenceId:String(s.sequenceID),trackIndex:Number(a.trackIndex),kind:'RENDERED_OVERLAY_NOT_EDITABLE_MOGRT',clip:clipInfo(c),snapshot:snapshot(s)};
+    }
     else if (op === 'saveProject') { app.project.save(); result = {saved:true,projectPath:String(app.project.path || '')}; }
     else fail('Unknown Najm V2 operation: ' + op);
     if (a.operationKey && /^(createSourceAssembly|createGeneratedSequence|exportGeneratedFrame)$/.test(op)) api.mutationResults[a.operationKey] = {projectPath:String(app.project.path||''),result:result};

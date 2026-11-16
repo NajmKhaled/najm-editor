@@ -19,3 +19,7 @@ This public build is a **developer preview**. Local execution was on Windows 11 
 | Automatic final video export | Not implemented; manual |
 
 Reproduce with `npm ci`, `npm test`, and `npm run demo`. Integration checks are explicit and never run in the default CI. Do not infer live Adobe compatibility from host mocks. See `PREMIERE_ACCEPTANCE.md` for remaining acceptance.
+
+## Agent workflow update
+
+22 credential-free tests cover the current two-agent example, explicit source choice, reference read-only access, versioned names, local mappings, minimized prompts, changed-input cloud approval and owned overlay insertion. The actual panel was exercised in a local Chromium browser fixture (`npm run test:panel`); this is not CEP/Premiere acceptance. The optional HTML/CSS renderer smoke test (`npm run test:renderer`) passed locally with ProRes alpha metadata/decoded alpha checks. The shown Arabic lower-third sample and FFmpeg composite were visually reviewed. The 20-second public animation is a simulated workflow driven by actual fixture plans, not an Adobe recording.

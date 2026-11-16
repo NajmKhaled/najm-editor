@@ -2,7 +2,7 @@ import {createServer, type Server, type RequestListener} from 'node:http';
 import {loadLocalToken,trustedOrigin,validToken} from './auth.js';
 import {WebSocketServer, WebSocket} from 'ws';
 
-export type DirectOperation='health'|'getProjectState'|'getActiveSequenceState'|'getSequenceSnapshot'|'getReferenceSnapshot'|'activateSourceSequence'|'openGeneratedSequence'|'createSourceAssembly'|'createGeneratedSequence'|'buildRoughCutBatch'|'readSequenceSnapshot'|'inspectGraphicAt'|'exportGeneratedFrame'|'applyGraphicsBatch'|'saveProject';
+export type DirectOperation='health'|'getProjectState'|'getActiveSequenceState'|'getSequenceSnapshot'|'getReferenceSnapshot'|'activateSourceSequence'|'openGeneratedSequence'|'createSourceAssembly'|'createGeneratedSequence'|'buildRoughCutBatch'|'readSequenceSnapshot'|'inspectGraphicAt'|'exportGeneratedFrame'|'applyOverlayBatch'|'applyGraphicsBatch'|'saveProject';
 type Pending={resolve:(value:any)=>void;reject:(error:Error)=>void;timer:NodeJS.Timeout;operation:DirectOperation};
 
 /** The CEP panel owns the Premiere scripting context. Only one host mutation runs at a time. */
@@ -43,7 +43,7 @@ export class DirectPremiereBridge {
   get port(){const address=this.server.address();return address&&typeof address==='object'?address.port:0}
   private disconnect(error:Error){const socket=this.socket;this.socket=undefined;if(socket&&socket.readyState===WebSocket.OPEN)socket.close();for(const [id,p] of this.pending){if(this.isMutation(p.operation))this.uncertain=true;clearTimeout(p.timer);p.reject(error);this.pending.delete(id)}}
   private onMessage(raw:string){let message:any;try{message=JSON.parse(raw)}catch{return}if(message.type==='heartbeat'){this.lastPong=Date.now();return}if(message.type!=='result'||!Number.isInteger(message.id))return;const p=this.pending.get(message.id);if(!p)return;this.lastPong=Date.now();this.pending.delete(message.id);clearTimeout(p.timer);message.ok?p.resolve(message.result):p.reject(Error(`${p.operation}: ${String(message.error||'Premiere host error')}`))}
-  private isMutation(op:string){return ['activateSourceSequence','openGeneratedSequence','createSourceAssembly','createGeneratedSequence','buildRoughCutBatch','exportGeneratedFrame','applyGraphicsBatch','saveProject'].includes(op)}
+  private isMutation(op:string){return ['activateSourceSequence','openGeneratedSequence','createSourceAssembly','createGeneratedSequence','buildRoughCutBatch','exportGeneratedFrame','applyGraphicsBatch','applyOverlayBatch','saveProject'].includes(op)}
   call(operation:DirectOperation,args:any={},timeoutMs=120000):Promise<any>{
     const execute=()=>new Promise<any>((resolve,reject)=>{
       if(this.isMutation(operation)&&this.uncertain)return reject(Error('HOST_OUTCOME_UNKNOWN: reconcile the actual Premiere state before another write'));
@@ -52,7 +52,7 @@ export class DirectPremiereBridge {
       this.pending.set(id,{resolve,reject,timer,operation});
       try{this.socket!.send(JSON.stringify({type:'request',id,operation,args}))}catch(error){clearTimeout(timer);this.pending.delete(id);reject(Error(`${operation}: ${String(error)}`))}
     });
-    const mutation=['activateSourceSequence','openGeneratedSequence','createSourceAssembly','createGeneratedSequence','buildRoughCutBatch','exportGeneratedFrame','applyGraphicsBatch','saveProject'].includes(operation);
+    const mutation=['activateSourceSequence','openGeneratedSequence','createSourceAssembly','createGeneratedSequence','buildRoughCutBatch','exportGeneratedFrame','applyGraphicsBatch','applyOverlayBatch','saveProject'].includes(operation);
     if(!mutation)return execute();
     const task=this.mutationTail.then(execute);this.mutationTail=task.catch(()=>{});return task;
   }

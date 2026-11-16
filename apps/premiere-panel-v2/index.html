@@ -17,6 +17,27 @@
     <span class="host-label">PREMIERE EXTENSION</span>
   </header>
 
+
+<section class="card workflow-card" aria-labelledby="workflow-heading">
+ <p class="eyebrow">YOUR EDITING STYLE, READY FOR THE NEXT VIDEO.</p><h2 id="workflow-heading">From your timeline to a first pass</h2>
+ <ol class="workflow-steps"><li>Learn Timeline</li><li>Save Editing Agent</li><li>Auto Edit</li><li>Review in Premiere</li></ol>
+ <label for="workflow-name">Agent for a client or series</label><input id="workflow-name" maxlength="100" placeholder="Name this editing agent">
+ <label for="workflow-reference">Finished reference sequence (read only)</label><select id="workflow-reference"><option value="">Use the active sequence</option></select>
+ <div class="workflow-buttons"><button id="workflow-learn" class="secondary" type="button">1. Learn Timeline</button><button id="workflow-save" class="secondary" type="button">2. Save Editing Agent</button><button id="workflow-auto" class="primary" type="button">3. Auto Edit</button><button id="workflow-review" class="secondary" type="button">4. Open review sequence</button></div>
+ <p class="hint">For step 3, choose new footage under Source project, load the saved agent, then select Auto Edit. The result is a separate sequence.</p>
+ <p id="workflow-message" class="hint" role="status"></p><div id="workflow-summary" class="workflow-evidence"></div>
+ <details><summary>Confirm roles and map private local assets</summary><p class="hint">Premiere may expose graphic text but cannot prove its caption/title role or original MOGRT. Confirm roles yourself. Compatible local MOGRTs take precedence; unverified/missing mappings use labeled neutral raster graphics. Paths and fonts remain local.</p>
+ <label for="mapping-caption-role">Caption role</label><select id="mapping-caption-role"><option value="UNMAPPED">Not mapped</option><option value="EDITOR_CONFIRMED">Confirmed by editor</option></select>
+ <label for="mapping-title-role">Title role</label><select id="mapping-title-role"><option value="UNMAPPED">Not mapped</option><option value="EDITOR_CONFIRMED">Confirmed by editor</option></select>
+ <label for="mapping-caption">Caption MOGRT path (local only)</label><input id="mapping-caption" placeholder="Optional absolute .mogrt path"><label for="mapping-caption-compatible"><input id="mapping-caption-compatible" type="checkbox"> I tested this caption MOGRT and its editable text in Premiere</label>
+ <label for="mapping-title">Title MOGRT path (local only)</label><input id="mapping-title" placeholder="Optional absolute .mogrt path"><label for="mapping-title-compatible"><input id="mapping-title-compatible" type="checkbox"> I tested this title MOGRT and its editable text in Premiere</label>
+ <label for="mapping-font">Private font note (local only)</label><input id="mapping-font" maxlength="120" placeholder="Optional installed font family">
+ <label for="mapping-motion"><input id="mapping-motion" type="checkbox"> Optional original lower third: rendered overlay, not an editable MOGRT</label><p class="hint">Uses a local HTML/CSS renderer and FFmpeg. Missing renderer is reported as a fallback; core editing works with this off. Premiere alpha/import acceptance is pending.</p>
+ <div class="motion-settings"><label for="motion-primary">Lower-third heading (blank: use planned title)</label><input id="motion-primary" maxlength="64"><label for="motion-secondary">Second line</label><input id="motion-secondary" maxlength="80"><label for="motion-accent">Approved accent</label><select id="motion-accent"><option value="mint">Mint</option><option value="lavender">Lavender</option></select><label for="motion-position">Position</label><select id="motion-position"><option value="left">Left</option><option value="right">Right</option></select><label for="motion-duration">Duration (seconds)</label><input id="motion-duration" type="number" min="1" max="8" step="1" value="3"><label for="motion-scale">Text scale</label><input id="motion-scale" type="number" min="0.85" max="1.15" step="0.05" value="1"></div><button id="workflow-mappings" class="secondary" type="button">Save local mappings</button></details>
+ <details><summary>Preview what cloud planning would receive</summary><p class="hint">Local fixture mode is the default. Load Agent to prepare source speech locally. Review transcript, instructions, rule values and image disclosure before optional cloud approval. Audio transcription upload has a separate opt-in.</p><button id="workflow-preview" class="secondary" type="button">Preview planning payload</button><pre id="workflow-payload" class="hint">No cloud payload approved.</pre><label for="workflow-consent"><input id="workflow-consent" type="checkbox"> I reviewed this payload and approve the disclosed planning inputs</label><button id="workflow-approve" class="secondary" type="button" disabled>Approve this source and agent</button></details>
+ <p id="workflow-applied" class="hint" role="status"></p>
+</section>
+
   <div class="workspace-grid">
     <div class="workspace-main">
       <section class="intro" aria-labelledby="current">
@@ -71,7 +92,7 @@
       </section>
 
       <section class="card" id="agent-card" aria-labelledby="agent-heading">
-        <div class="section-heading"><div class="section-title"><span class="section-number">04</span><h2 id="agent-heading">Editing agent</h2></div><span class="optional">OPTIONAL</span></div>
+        <div class="section-heading"><div class="section-title"><span class="section-number">04</span><h2 id="agent-heading">Saved editing agents</h2></div><span class="optional">OPTIONAL</span></div>
         <div class="agent-row"><label for="agent-select">Selected agent</label><select id="agent-select"><option value="">No agent</option></select><button id="agent-new" class="secondary" type="button">New agent</button></div>
         <p id="agent-mode-help" class="hint">No agent: use general Auto Edit. Select a draft to train it or an approved agent to use its saved rules.</p>
         <div class="agent-editor" id="agent-memory" hidden>
@@ -88,11 +109,11 @@
           <label for="agent-instructions">Instructions</label><textarea id="agent-instructions" maxlength="8000" rows="5" placeholder="Describe editing preferences for story and visuals..."></textarea>
           <p class="hint">Agents remain drafts. A test uses the selected saved version.</p>
           <p id="agent-error" class="field-error" role="alert"></p>
-          <button id="agent-save" class="secondary" type="button">Save agent</button>
+          <button id="agent-save" class="secondary" type="button">Save draft details</button>
           <p id="agent-save-status" class="hint" role="status" aria-live="polite"></p>
         </details>
         <div class="agent-editor" id="training-studio" hidden>
-          <strong>Agent Training Studio</strong>
+          <strong>Learn Timeline and corrections</strong>
           <p class="hint">Learn Timeline → Test Agent → Save Agent or Modify Editing Style</p>
           <p id="studio-step" class="hint">Open a reference timeline to begin.</p>
           <p id="studio-operation" class="hint" role="status" aria-live="polite"></p>

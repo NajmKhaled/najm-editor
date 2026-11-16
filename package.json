@@ -1,6 +1,6 @@
 {
   "name": "najm-editor",
-  "version": "0.3.0-dev",
+  "version": "0.4.0-dev",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,7 +12,11 @@
     "check:release": "node scripts/check-release.mjs",
     "demo:media": "npm run build && node dist/demo/media.js",
     "install:panel": "powershell.exe -NoProfile -File scripts/install-v2.ps1",
-    "demo:preview": "npm run build && node dist/demo/preview.js"
+    "demo:preview": "npm run build && node dist/demo/preview.js",
+    "demo:lower-third": "npm run build && node dist/demo/lower-third.js",
+    "demo:workflow": "npm run build && node dist/demo/render-workflow.js",
+    "test:renderer": "npm run build && node --test dist/tests/integration/renderer-smoke.js",
+    "test:panel": "npm run build && node scripts/panel-smoke.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
@@ -25,5 +29,8 @@
   },
   "engines": {
     "node": ">=22"
+  },
+  "optionalDependencies": {
+    "playwright-core": "1.65.1"
   }
 }

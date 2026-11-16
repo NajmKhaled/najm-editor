@@ -37,3 +37,7 @@ The captions-only adapter uses OpenAI's timestamped transcription endpoint and r
 This adapter and caption-review path are experimental, not live-paid-API accepted. The preview's synthetic-only provider restriction also applies to downstream review; do not enable the adapter for private projects. The original local workflow remains outside this public release.
 
 Local ASR loads an explicitly cached Whisper file or a local-only faster-whisper cache. It does not silently download weights. Python launches go through the pinned resolver. FFmpeg and font rendering remain local.
+
+## Panel disclosure and private mappings
+
+The panel can preview locally prepared transcript phrases, typed instructions, reusable rule values and the contact-sheet disclosure before per-source cloud approval. The approval is bound to the source fingerprint, agent version and brief; changed inputs require review again. Provider environment opt-in and synthetic-only restrictions remain in force. Optional lower-third text and approved style values also form model input when enabled. Agent display names, local MOGRT paths/binaries and private font notes are omitted from planning preferences. Mapping changes invalidate an existing run.

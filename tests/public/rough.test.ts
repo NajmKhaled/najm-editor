@@ -9,3 +9,9 @@ test('partial rough writes replay into same target; unrelated/manual picture is 
  bridge.failNext(1);await assert.rejects(bridge.call('buildRoughCutBatch',args),/interruption/);bridge.noFailure();bridge.restart();await bridge.call('buildRoughCutBatch',args);await bridge.call('buildRoughCutBatch',args);assert.equal(bridge.sequences[1].videoTracks[0].clips.numItems,2);
  bridge.sequences[1].videoTracks[0].clips[0].end.seconds=1.5;await assert.rejects(bridge.call('buildRoughCutBatch',args),/existing clip differs/);assert.equal(bridge.sequences[1].videoTracks[0].clips[0].end.seconds,1.5);sourceUnchanged(sourceSnapshot,await bridge.call('getSequenceSnapshot',{sequenceId:sourceId}));
 });
+test('rendered overlay uses an owned dedicated track and preserves manual conflicts',async()=>{
+ const bridge=hostFixture(),dir=mkdtempSync(join(tmpdir(),'najm-overlay-')),path=join(dir,'original-overlay.mov');writeFileSync(path,'synthetic overlay placeholder for host simulation');bridge.item(path,2,'video');
+ const sourceId=bridge.source.sequenceID,sourceSnapshot=await bridge.call('getSequenceSnapshot',{sequenceId:sourceId}),target=await ensureTarget({bridge,dir,runId:'overlay-run',sourceId,sourceSnapshot,planKey:'overlay',preserveTimeline:false});
+ const args={runId:'overlay-run',sourceSequenceId:sourceId,sequenceId:target.sequenceId,targetReceiptPath:join(dir,'TARGET_RECEIPT.json'),path,start:1,end:3,trackIndex:3};
+ await bridge.call('applyOverlayBatch',args);bridge.restart();await bridge.call('applyOverlayBatch',args);assert.equal(bridge.sequences[1].videoTracks[3].clips.numItems,1);bridge.sequences[1].videoTracks[3].clips[0].name='manual change';await assert.rejects(bridge.call('applyOverlayBatch',args),/edited overlay preserved/);sourceUnchanged(sourceSnapshot,await bridge.call('getSequenceSnapshot',{sequenceId:sourceId}));
+});

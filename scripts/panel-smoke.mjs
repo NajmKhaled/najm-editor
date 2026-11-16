@@ -1,0 +1,32 @@
+import {readFileSync,mkdtempSync,mkdirSync} from 'node:fs';import {tmpdir} from 'node:os';import {join} from 'node:path';
+import {runDemo} from '../dist/demo/run.js';import {EditingAgentStore} from '../dist/packages/v2/agent-store.js';
+import {AgentLocalSettingsStore,agentWorkflowSummary} from '../dist/packages/v2/agent-settings.js';import {V2Service} from '../dist/services/v2/service.js';
+import {snapshotHash} from '../dist/packages/v2/training-studio.js';import {openLocalBrowser} from '../dist/packages/v2/local-browser.js';
+const dir=mkdtempSync(join(tmpdir(),'najm-panel-fixture-'));await runDemo(dir,2000);const agents=new EditingAgentStore(join(dir,'agents'));let agent=agents.list()[0];
+const snapshot={id:'source',name:'Fresh synthetic source',duration:12,sequenceFps:30,width:1080,height:1920,videoTracks:[{index:0,clips:[{id:'clip',name:'circle',mediaPath:'circle.mp4',start:0,end:12,sourceIn:0,sourceOut:12}]}],audioTracks:[{index:0,clips:[{id:'sound',mediaPath:'silence.wav',start:0,end:12,sourceIn:0,sourceOut:12}]}]};
+const service=Object.create(V2Service.prototype);service.agents=agents;service.localAgentSettings=new AgentLocalSettingsStore(join(dir,'settings'));service.training={latestCompleted:()=>null};service.cloudApprovals=new Map();service.sourceState=async()=>({projectPath:'synthetic',activeSequence:{id:'source',name:snapshot.name},sequences:[{id:'source',name:snapshot.name,videoClipCount:1,audioClipCount:1}]});service.bridge={call:async()=>snapshot};service.loadedAgents=new Map([[service.projectId('synthetic'),{id:agent.id,version:agent.version,sourceFingerprint:snapshotHash(snapshot),transcript:{phrases:[{start:0,end:4,text:'الدائرة الأولى'}]}}]]);
+const browser=await openLocalBrowser();
+try{const page=await browser.newPage({viewport:{width:1200,height:1050}}),errors=[];page.setDefaultTimeout(10000);page.on('pageerror',e=>{errors.push(e.message);console.error('Panel fixture error: '+e.message)});
+ await page.exposeFunction('fixtureRequest',async(method,url,body)=>{const path=new URL(url).pathname;
+  if(path==='/v2/health')return {engine:'Najm V2',directConnected:true,whisperReady:true,gptReady:true,ffmpegReady:true,assetsReady:true,sourceReady:true,stateReady:true,buildReady:true,buildId:'fixture-build',ready:true};
+  if(path==='/v2/status')return {ready:true,source:{id:'source',name:snapshot.name},projectPath:'synthetic',job:null,loadedAgent:{id:agent.id,version:agent.version,sourceSequenceId:'source'}};
+  if(path==='/v2/source-state')return service.sourceState();if(path==='/v2/source-snapshot')return snapshot;
+  if(path==='/v2/agents')return agents.list();if(path==='/v2/agents/workflow')return service.agentWorkflow(agent.id);
+  if(path==='/v2/training/status')return {session:null,learning:false,compatibility:{ready:true,reason:'Synthetic fixture'}};
+  if(path==='/v2/agents/name'){agent=service.saveEditingAgent(body);return agent}
+  if(path==='/v2/agents/settings')return service.saveAgentSettings(body);
+  if(path==='/v2/planning-preview')return service.planningPreview(body);
+  if(path==='/v2/planning-approve')return service.approvePlanning(body);
+  throw Error('Unexpected panel fixture request '+path);
+ });
+ await page.setContent(readFileSync('apps/premiere-panel-v2/index.html','utf8').replace(/<script>[\s\S]*?<\/script>/g,''));await page.addStyleTag({content:readFileSync('apps/premiere-panel-v2/style.css','utf8')});
+ await page.evaluate(({id})=>{Object.defineProperty(window,'localStorage',{value:{getItem:()=>id,setItem(){}},configurable:true});window.NAJM_V2_CONFIG={root:'synthetic-local',nodePath:'node',buildId:'fixture-build'};window.require=(name)=>name==='fs'?{readFileSync:()=> 'a'.repeat(64)}:{spawn:()=>({on(){},unref(){}})};
+  window.XMLHttpRequest=class{open(method,url){this.method=method;this.url=url}setRequestHeader(){}send(body){window.fixtureRequest(this.method,this.url,body?JSON.parse(body):{}).then(value=>{this.responseText=JSON.stringify(value);this.status=200;this.readyState=4;this.onreadystatechange?.()}).catch(e=>{this.responseText=JSON.stringify({error:e.message});this.status=400;this.readyState=4;this.onreadystatechange?.()})}};
+  window.WebSocket=class{constructor(){this.readyState=1;setTimeout(()=>this.onmessage?.({data:JSON.stringify({type:'hello',version:2})}),0)}send(){}close(){this.readyState=3}};
+ },{id:agent.id});
+ await page.addScriptTag({content:readFileSync('apps/premiere-panel-v2/app.js','utf8')});await page.waitForFunction(()=>document.querySelector('#workflow-summary').textContent.includes('2000'));
+ await page.locator('#workflow-name').fill('Sample series');await page.locator('#workflow-save').click();await page.waitForFunction(()=>document.querySelector('#workflow-message').textContent.includes('saved as v3'));
+ await page.locator('#workflow-mappings').evaluate(e=>e.closest('details').open=true);await page.locator('#mapping-caption-role').selectOption('EDITOR_CONFIRMED');await page.locator('#workflow-mappings').click();await page.waitForFunction(()=>document.querySelector('#workflow-message').textContent.includes('Private mappings saved'));
+ await page.locator('#workflow-preview').evaluate(e=>e.closest('details').open=true);await page.locator('#workflow-preview').click();await page.waitForFunction(()=>document.querySelector('#workflow-payload').textContent.includes('الدائرة الأولى'));await page.locator('#workflow-consent').check();await page.locator('#workflow-approve').click();await page.waitForFunction(()=>document.querySelector('#workflow-message').textContent.includes('inputs approved'));
+ if(errors.length)throw Error(errors.join('\n'));mkdirSync('demo/output',{recursive:true});await page.screenshot({path:'demo/output/panel-fixture.png',fullPage:true});console.log('Panel browser fixture passed: detected/configured/unavailable cards, versioned agent save, local mappings, and reviewed cloud approval. No Premiere was used.');
+}finally{await browser.close()}

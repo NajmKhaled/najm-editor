@@ -3,6 +3,7 @@ import {existsSync,mkdirSync,readFileSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {runPython} from '../pipeline/python-runtime.js';
 import {neutralGraphic} from './neutral-graphics.js';
+import type {AgentLocalSettings} from './agent-settings.js';
 
 type Graphic = {start:number;end:number;text:string;templatePath:string};
 const root=resolve();
@@ -29,8 +30,17 @@ async function variant(templatePath:string,outputDir:string,label:string,texts:s
   return outputPath;
 }
 
-export async function prepareArabicGraphics(jobDir:string,captions:{start:number;end:number;text:string}[],title:{start:number;end:number;text:string},signal?:AbortSignal){
+export async function prepareArabicGraphics(jobDir:string,captions:{start:number;end:number;text:string}[],title:{start:number;end:number;text:string},signal?:AbortSignal,settings?:AgentLocalSettings){
   const dir=join(jobDir,'graphics-variants');mkdirSync(dir,{recursive:true});
+  if(settings&&(process.env.NAJM_GRAPHICS_MODE!=='native'||settings.templates.caption||settings.templates.title)){
+    const resolveGraphic=async(kind:'caption'|'title',x:{start:number;end:number;text:string},i:number)=>{
+      const local=settings.templates[kind];
+      if(local?.compatibility==='EDITOR_CONFIRMED')return {...x,templatePath:await variant(local.path,dir,kind+'-'+i,kind==='title'?titleLines(x.text):[x.text],signal),graphicsKind:'EDITABLE_MOGRT'};
+      return {...x,templatePath:neutralGraphic(dir,x.text,kind),graphicsKind:'RENDERED_PNG_NOT_EDITABLE_MOGRT'};
+    };
+    const rendered=[];for(let i=0;i<captions.length;i++)rendered.push(await resolveGraphic('caption',captions[i],i));
+    return {captions:rendered,title:await resolveGraphic('title',title,0)};
+  }
   if(process.env.NAJM_GRAPHICS_MODE!=='native')return {captions:captions.map(x=>({...x,templatePath:neutralGraphic(dir,x.text,'caption')})),title:{...title,templatePath:neutralGraphic(dir,title.text,'title')}};
   const captionTemplate=resolve('templates','CAPTION_AR.mogrt'),titleTemplate=resolve('templates','TITLE_AR.mogrt');
   const renderedCaptions:Graphic[]=[];

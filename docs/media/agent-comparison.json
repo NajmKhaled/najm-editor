@@ -1,0 +1,350 @@
+{
+  "evidence": "SIMULATED_WORKFLOW_ACTUAL_FIXTURE_PLANS",
+  "sameSource": true,
+  "slow": {
+    "summary": {
+      "inference": "DETERMINISTIC_FIXTURE",
+      "timingEvidence": "SYNTHETIC",
+      "referenceTargetMs": 2000,
+      "shotCount": 6,
+      "duration": 12,
+      "sourceFramesReused": false,
+      "sourceFingerprint": "7d124408fcac62457c49ba9166bdcf965e113af646b108d4698a189582554bdc",
+      "referencePreserved": true,
+      "sourcePreserved": true,
+      "agent": {
+        "name": "Measured",
+        "version": 2,
+        "rules": [
+          {
+            "kind": "shot_pacing",
+            "value": 2000,
+            "support": "EXECUTABLE",
+            "status": "CONFIRMED"
+          },
+          {
+            "kind": "opening_pacing",
+            "value": 2000,
+            "support": "ADVISORY",
+            "status": "CONFIRMED"
+          }
+        ]
+      },
+      "validation": "VALID",
+      "premiereVerification": "NOT_RUN"
+    },
+    "plan": {
+      "title_ar": "حكاية الأشكال",
+      "shots": [
+        {
+          "shot_id": "slot_001_01",
+          "story_beat_id": "beat-0",
+          "narration_segment_id": "speech-0",
+          "spoken_text": "الدائرة الأولى",
+          "timeline_start": 0,
+          "timeline_end": 2,
+          "source_media": "demo/assets/circle.svg",
+          "source_in": 0,
+          "source_out": 2,
+          "visual_description": "red circle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0001"
+        },
+        {
+          "shot_id": "slot_001_02",
+          "story_beat_id": "beat-0",
+          "narration_segment_id": "speech-0",
+          "spoken_text": "الدائرة الأولى",
+          "timeline_start": 2,
+          "timeline_end": 4,
+          "source_media": "demo/assets/circle.svg",
+          "source_in": 2,
+          "source_out": 4,
+          "visual_description": "red circle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0002"
+        },
+        {
+          "shot_id": "slot_002_01",
+          "story_beat_id": "beat-1",
+          "narration_segment_id": "speech-1",
+          "spoken_text": "المربع الثاني",
+          "timeline_start": 4,
+          "timeline_end": 6,
+          "source_media": "demo/assets/square.svg",
+          "source_in": 0,
+          "source_out": 2,
+          "visual_description": "blue square",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0007"
+        },
+        {
+          "shot_id": "slot_002_02",
+          "story_beat_id": "beat-1",
+          "narration_segment_id": "speech-1",
+          "spoken_text": "المربع الثاني",
+          "timeline_start": 6,
+          "timeline_end": 8,
+          "source_media": "demo/assets/square.svg",
+          "source_in": 2,
+          "source_out": 4,
+          "visual_description": "blue square",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0008"
+        },
+        {
+          "shot_id": "slot_003_01",
+          "story_beat_id": "beat-2",
+          "narration_segment_id": "speech-2",
+          "spoken_text": "المثلث الثالث",
+          "timeline_start": 8,
+          "timeline_end": 10,
+          "source_media": "demo/assets/triangle.svg",
+          "source_in": 0,
+          "source_out": 2,
+          "visual_description": "green triangle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0013"
+        },
+        {
+          "shot_id": "slot_003_02",
+          "story_beat_id": "beat-2",
+          "narration_segment_id": "speech-2",
+          "spoken_text": "المثلث الثالث",
+          "timeline_start": 10,
+          "timeline_end": 12,
+          "source_media": "demo/assets/triangle.svg",
+          "source_in": 2,
+          "source_out": 4,
+          "visual_description": "green triangle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0014"
+        }
+      ]
+    }
+  },
+  "fast": {
+    "summary": {
+      "inference": "DETERMINISTIC_FIXTURE",
+      "timingEvidence": "SYNTHETIC",
+      "referenceTargetMs": 1000,
+      "shotCount": 12,
+      "duration": 12,
+      "sourceFramesReused": false,
+      "sourceFingerprint": "7d124408fcac62457c49ba9166bdcf965e113af646b108d4698a189582554bdc",
+      "referencePreserved": true,
+      "sourcePreserved": true,
+      "agent": {
+        "name": "Tight",
+        "version": 2,
+        "rules": [
+          {
+            "kind": "shot_pacing",
+            "value": 1000,
+            "support": "EXECUTABLE",
+            "status": "CONFIRMED"
+          },
+          {
+            "kind": "opening_pacing",
+            "value": 1000,
+            "support": "ADVISORY",
+            "status": "CONFIRMED"
+          }
+        ]
+      },
+      "validation": "VALID",
+      "premiereVerification": "NOT_RUN"
+    },
+    "plan": {
+      "title_ar": "حكاية الأشكال",
+      "shots": [
+        {
+          "shot_id": "slot_001_01",
+          "story_beat_id": "beat-0",
+          "narration_segment_id": "speech-0",
+          "spoken_text": "الدائرة الأولى",
+          "timeline_start": 0,
+          "timeline_end": 1,
+          "source_media": "demo/assets/circle.svg",
+          "source_in": 0.5,
+          "source_out": 1.5,
+          "visual_description": "red circle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0001"
+        },
+        {
+          "shot_id": "slot_001_02",
+          "story_beat_id": "beat-0",
+          "narration_segment_id": "speech-0",
+          "spoken_text": "الدائرة الأولى",
+          "timeline_start": 1,
+          "timeline_end": 2,
+          "source_media": "demo/assets/circle.svg",
+          "source_in": 2.5,
+          "source_out": 3.5,
+          "visual_description": "red circle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0002"
+        },
+        {
+          "shot_id": "slot_001_03",
+          "story_beat_id": "beat-0",
+          "narration_segment_id": "speech-0",
+          "spoken_text": "الدائرة الأولى",
+          "timeline_start": 2,
+          "timeline_end": 3,
+          "source_media": "demo/assets/circle.svg",
+          "source_in": 4.5,
+          "source_out": 5.5,
+          "visual_description": "red circle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0003"
+        },
+        {
+          "shot_id": "slot_001_04",
+          "story_beat_id": "beat-0",
+          "narration_segment_id": "speech-0",
+          "spoken_text": "الدائرة الأولى",
+          "timeline_start": 3,
+          "timeline_end": 4,
+          "source_media": "demo/assets/circle.svg",
+          "source_in": 6.5,
+          "source_out": 7.5,
+          "visual_description": "red circle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0004"
+        },
+        {
+          "shot_id": "slot_002_01",
+          "story_beat_id": "beat-1",
+          "narration_segment_id": "speech-1",
+          "spoken_text": "المربع الثاني",
+          "timeline_start": 4,
+          "timeline_end": 5,
+          "source_media": "demo/assets/square.svg",
+          "source_in": 0.5,
+          "source_out": 1.5,
+          "visual_description": "blue square",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0007"
+        },
+        {
+          "shot_id": "slot_002_02",
+          "story_beat_id": "beat-1",
+          "narration_segment_id": "speech-1",
+          "spoken_text": "المربع الثاني",
+          "timeline_start": 5,
+          "timeline_end": 6,
+          "source_media": "demo/assets/square.svg",
+          "source_in": 2.5,
+          "source_out": 3.5,
+          "visual_description": "blue square",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0008"
+        },
+        {
+          "shot_id": "slot_002_03",
+          "story_beat_id": "beat-1",
+          "narration_segment_id": "speech-1",
+          "spoken_text": "المربع الثاني",
+          "timeline_start": 6,
+          "timeline_end": 7,
+          "source_media": "demo/assets/square.svg",
+          "source_in": 4.5,
+          "source_out": 5.5,
+          "visual_description": "blue square",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0009"
+        },
+        {
+          "shot_id": "slot_002_04",
+          "story_beat_id": "beat-1",
+          "narration_segment_id": "speech-1",
+          "spoken_text": "المربع الثاني",
+          "timeline_start": 7,
+          "timeline_end": 8,
+          "source_media": "demo/assets/square.svg",
+          "source_in": 6.5,
+          "source_out": 7.5,
+          "visual_description": "blue square",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0010"
+        },
+        {
+          "shot_id": "slot_003_01",
+          "story_beat_id": "beat-2",
+          "narration_segment_id": "speech-2",
+          "spoken_text": "المثلث الثالث",
+          "timeline_start": 8,
+          "timeline_end": 9,
+          "source_media": "demo/assets/triangle.svg",
+          "source_in": 0.5,
+          "source_out": 1.5,
+          "visual_description": "green triangle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0013"
+        },
+        {
+          "shot_id": "slot_003_02",
+          "story_beat_id": "beat-2",
+          "narration_segment_id": "speech-2",
+          "spoken_text": "المثلث الثالث",
+          "timeline_start": 9,
+          "timeline_end": 10,
+          "source_media": "demo/assets/triangle.svg",
+          "source_in": 2.5,
+          "source_out": 3.5,
+          "visual_description": "green triangle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0014"
+        },
+        {
+          "shot_id": "slot_003_03",
+          "story_beat_id": "beat-2",
+          "narration_segment_id": "speech-2",
+          "spoken_text": "المثلث الثالث",
+          "timeline_start": 10,
+          "timeline_end": 11,
+          "source_media": "demo/assets/triangle.svg",
+          "source_in": 4.5,
+          "source_out": 5.5,
+          "visual_description": "green triangle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0015"
+        },
+        {
+          "shot_id": "slot_003_04",
+          "story_beat_id": "beat-2",
+          "narration_segment_id": "speech-2",
+          "spoken_text": "المثلث الثالث",
+          "timeline_start": 11,
+          "timeline_end": 12,
+          "source_media": "demo/assets/triangle.svg",
+          "source_in": 6.5,
+          "source_out": 7.5,
+          "visual_description": "green triangle",
+          "relevance_reason": "FIXTURE: match the supplied shape label to this narration slot",
+          "confidence": 1,
+          "candidate_id": "C0016"
+        }
+      ]
+    }
+  }
+}

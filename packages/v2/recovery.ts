@@ -20,7 +20,7 @@ export async function recoverableCall(bridge:Pick<DirectPremiereBridge,'call'|'c
     if(args.sequenceId)await bridge.call('readSequenceSnapshot',{sequenceId:args.sequenceId},30000);
     bridge.acknowledgeReconciliation();signal?.throwIfAborted();
     if(op==='createGeneratedSequence')throw Error('RECOVERY_REQUIRED: resolve persisted target intent before cloning again');
-    if(!['buildRoughCutBatch','applyGraphicsBatch','saveProject','getSequenceSnapshot','readSequenceSnapshot','getProjectState','openGeneratedSequence'].includes(op))throw Error('RECOVERY_REQUIRED: verify the previous host operation before resuming');
+    if(!['buildRoughCutBatch','applyGraphicsBatch','applyOverlayBatch','saveProject','getSequenceSnapshot','readSequenceSnapshot','getProjectState','openGeneratedSequence'].includes(op))throw Error('RECOVERY_REQUIRED: verify the previous host operation before resuming');
     return bridge.call(op,args,180000);
   }
 }

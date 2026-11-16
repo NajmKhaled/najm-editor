@@ -1,12 +1,16 @@
 import {readFileSync,existsSync,readdirSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 const expected=JSON.parse(readFileSync('release-files.json','utf8')).files;
+const reviewedMedia=existsSync('docs/media/asset-provenance.json')?JSON.parse(readFileSync('docs/media/asset-provenance.json','utf8')).assets:{};
 const deniedPath=/(^|\/)(?:style|styles|templates|fonts|analysis|logs|projects)(\/|$)|\.(?:mogrt|prproj|ttf|otf|woff2?|mp3|wav|mp4|zip)$/i;
 const secret=/sk-[a-zA-Z0-9_-]{20,}|gh[pousr]_[a-zA-Z0-9]{20,}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/;
 const privateText=/(?:[A-Za-z]:[\\/](?:Users|PremiereAI|Video Editing)[\\/])|MCP\x20TEST|AI_TEST_\x30\x31|SECOND\x20TEST|NAJM_STYLE_\x53OURCE|brand-\x6dark\.webp/;
 for(const file of expected){
- if(deniedPath.test(file))throw Error('Forbidden release category: '+file);
+ if(deniedPath.test(file)&&file!=='docs/media/workflow.mp4')throw Error('Forbidden release category: '+file);
  const bytes=readFileSync(file);
+ if(reviewedMedia[file]&&createHash('sha256').update(bytes).digest('hex')!==reviewedMedia[file].sha256)throw Error('Reviewed demo asset changed: '+file);
+ if(/\.(?:mp4|gif)$/.test(file)){if(!reviewedMedia[file]||reviewedMedia[file].origin!=='FIRST_PARTY_SIMULATED_WORKFLOW')throw Error('Unreviewed media: '+file);continue;}
  if(file.endsWith('.png')){
   let at=8;const chunks=[];while(at<bytes.length){const size=bytes.readUInt32BE(at),kind=bytes.toString('ascii',at+4,at+8);chunks.push(kind);if(!['IHDR','IDAT','IEND','sRGB','pHYs'].includes(kind))throw Error('Unexpected PNG metadata '+file+': '+kind);at+=size+12;}
  }else{

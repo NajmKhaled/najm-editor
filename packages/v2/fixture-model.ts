@@ -1,8 +1,10 @@
+import {validateMotionSelection,type MotionSelection} from './motion-contract.js';
 import type {ModelProvider,ModelResult} from './model.js';
 import type {CandidateSelectionPlan} from './candidate-plan.js';
 
 /** Deterministic inference fixture. No network, subprocess, credentials or ASR. */
 export class FixtureModelProvider implements ModelProvider {
+  async runMotionSelection(input:string,_dir:string):Promise<ModelResult<MotionSelection>>{const x=JSON.parse(input);if(x.source_sequence!=='Synthetic shapes source')throw Error('FIXTURE_ONLY: lower-third selection requires the supplied synthetic demo');return {cached:false,value:validateMotionSelection(x.approvedSelection,x.sequenceDuration)}}
   async ready(){return true}
   async runStoryCleanup(_input:string,_dir:string):Promise<ModelResult<any>>{throw Error('FIXTURE_ONLY: use npm run demo with the supplied synthetic transcript; real-project editing requires an explicit provider choice')}
   async runVisualEditPlan(input:string,_images:string[],_dir:string):Promise<ModelResult<CandidateSelectionPlan>>{
